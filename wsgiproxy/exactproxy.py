@@ -41,7 +41,7 @@ def filter_paste_httpserver_proxy_environ(environ):
         environ['SERVER_PORT'] = port
 
 
-def proxy_exact_request(environ, start_response):
+def proxy_exact_request(environ, start_response, kwargs={}):
     """
     HTTP proxying WSGI application that proxies the exact request
     given in the environment.  All controls are passed through the
@@ -60,7 +60,7 @@ def proxy_exact_request(environ, start_response):
     else:
         raise ValueError(
             "Unknown scheme: %r" % scheme)
-    conn = ConnClass('%(SERVER_NAME)s:%(SERVER_PORT)s' % environ)
+    conn = ConnClass('%(SERVER_NAME)s:%(SERVER_PORT)s' % environ, **kwargs)
     headers = {}
     for key, value in environ.items():
         if key.startswith('HTTP_'):
